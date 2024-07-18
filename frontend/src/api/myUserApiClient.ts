@@ -8,6 +8,7 @@ export const registerUser = async (formData: RegistrationFormData) => {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify(formData),
   });
 
@@ -24,6 +25,7 @@ export const signInUser = async (formData: SignInFormData) => {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify(formData),
   });
 
