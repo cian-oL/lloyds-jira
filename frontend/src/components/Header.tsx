@@ -16,7 +16,7 @@ const Header = () => {
           <img src={lloydsLogo} className="w-1/2" />
         </Link>
         {isLoggedIn ? (
-          <div className="flex justify-between items-center w-1/2">
+          <div className="flex flex-end items-center gap-10">
             <Navbar />
             <UserDropDownMenu />
           </div>
