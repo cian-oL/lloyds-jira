@@ -25,6 +25,10 @@ app.use(
   })
 );
 
+app.get("/health", async (req: Request, res: Response) => {
+  res.send({ message: "Health OK" });
+});
+
 // API routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
