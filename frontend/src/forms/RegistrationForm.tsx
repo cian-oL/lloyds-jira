@@ -3,11 +3,11 @@ import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-import { RegistrationFormData } from "../types/userTypes";
+import { UserFormData } from "../types/userTypes";
 import { registerUser } from "../api/myUserApiClient";
 import { Button } from "../components/ui/button";
 
-const RegistrationPage = () => {
+const RegistrationForm = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -16,7 +16,7 @@ const RegistrationPage = () => {
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegistrationFormData>();
+  } = useForm<UserFormData>();
 
   const mutation = useMutation(registerUser, {
     onSuccess: async () => {
@@ -90,7 +90,7 @@ const RegistrationPage = () => {
             {...register("password", {
               validate: (value) => {
                 const strongPasswordRegex =
-                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%^&*])(?=.{8,})/;
+                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%^&*?])(?=.{8,})/;
 
                 if (!value) {
                   return "Required";
@@ -146,4 +146,4 @@ const RegistrationPage = () => {
     </form>
   );
 };
-export default RegistrationPage;
+export default RegistrationForm;
