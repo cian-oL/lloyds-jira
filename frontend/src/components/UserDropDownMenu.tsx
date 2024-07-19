@@ -1,8 +1,8 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { signOutUser } from "../api/myUserApiClient";
+import { getUser, signOutUser } from "../api/myUserApiClient";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +15,7 @@ import { Button } from "./ui/button";
 import { toast } from "sonner";
 
 const UserDropDownMenu = () => {
+  const { data: currentUserData } = useQuery("getUser", getUser);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -34,9 +35,9 @@ const UserDropDownMenu = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="rounded-lg p-2 bg-white text-black font-bold hover:bg-amber-100">
+      <DropdownMenuTrigger className="flex gap-2 rounded-lg p-2 bg-white text-black font-bold hover:bg-amber-100">
         <User />
-        {/* {currentUser?.name} */}
+        {currentUserData?.firstName}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-lloyds-dark-green text-white mr-2">
         <DropdownMenuLabel className="font-extrabold text-base underline">

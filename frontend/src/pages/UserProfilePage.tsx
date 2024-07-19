@@ -1,4 +1,6 @@
+import UserProfileForm from "../forms/UserProfileForm";
+
 const UserProfilePage = () => {
-  return <div>UserProfilePage</div>;
+  return <UserProfileForm />;
 };
 export default UserProfilePage;
