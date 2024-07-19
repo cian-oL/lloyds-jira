@@ -22,7 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <AppContextProvider>
         <BrowserRouter>
           <App />
-          <Toaster position="top-right" richColors />
+          <Toaster richColors />
         </BrowserRouter>
       </AppContextProvider>
     </QueryClientProvider>
