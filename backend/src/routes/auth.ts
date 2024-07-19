@@ -57,7 +57,7 @@ router.post(
         maxAge: 3600000,
       });
 
-      return res.status(200).json({ userId: user._id });
+      return res.status(200).json({ user });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Something went wrong" });
@@ -73,7 +73,7 @@ router.get("/validate-token", verifyToken, (req: Request, res: Response) => {
 // /api/auth/sign-out
 router.post("/sign-out", (req: Request, res: Response) => {
   res.cookie("auth_token", "", { expires: new Date(0) });
-  return res.send();
+  return res.sendStatus(204);
 });
 
 export default router;

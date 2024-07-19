@@ -1,8 +1,10 @@
-import { RegistrationFormData, SignInFormData } from "../types/userTypes";
+import { User, RegistrationFormData, SignInFormData } from "../types/userTypes";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-export const registerUser = async (formData: RegistrationFormData) => {
+export const registerUser = async (
+  formData: RegistrationFormData
+): Promise<User> => {
   const response = await fetch(`${API_BASE_URL}/api/users/register`, {
     method: "POST",
     headers: {
@@ -19,7 +21,7 @@ export const registerUser = async (formData: RegistrationFormData) => {
   return response.json();
 };
 
-export const signInUser = async (formData: SignInFormData) => {
+export const signInUser = async (formData: SignInFormData): Promise<User> => {
   const response = await fetch(`${API_BASE_URL}/api/auth/sign-in`, {
     method: "POST",
     headers: {
@@ -45,4 +47,18 @@ export const validateToken = async () => {
     throw new Error("Token invalid");
   }
   return response.json();
+};
+
+export const signOutUser = async (): Promise<void> => {
+  const response = await fetch(`${API_BASE_URL}/api/auth/sign-out`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "json/application",
+    },
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Error during sign out");
+  }
 };

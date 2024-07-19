@@ -10,3 +10,11 @@ export type SignInFormData = {
   racfid: string;
   password: number;
 };
+
+export type User = {
+  _id: string;
+  racfid: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+};
