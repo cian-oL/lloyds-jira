@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 
 const SignInTile = () => {
   return (
-    <div className=" w-4/5 border border-lloyds-dark-green rounded-lg p-2 flex items-center mx-auto justify-evenly">
+    <div className=" w-4/5 border border-lloyds-dark-green rounded-lg p-2 flex flex-col items-center mx-auto justify-evenly md:flex-row">
       <img src={lloydsIcon} className="w-1/10 py-5" />
       <section className="w-fit">
         <div className="mb-10">
