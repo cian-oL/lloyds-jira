@@ -46,7 +46,7 @@ router.post(
       }
 
       const token = jwt.sign(
-        { userId: user.id },
+        { userId: user._id },
         process.env.JWT_SECRET_KEY as string,
         { expiresIn: "1h" }
       );
