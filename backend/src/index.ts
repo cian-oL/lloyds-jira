@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 
 import userRoutes from "./routes/users";
 import authRoutes from "./routes/auth";
+import issueRoutes from "./routes/issues";
 
 mongoose
   .connect(process.env.MONGODB_CONNECTION_URL as string)
@@ -32,5 +33,6 @@ app.get("/health", async (req: Request, res: Response) => {
 // API routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/issues", issueRoutes);
 
 app.listen(PORT, () => console.log(`Backend listening at port ${PORT}`));
