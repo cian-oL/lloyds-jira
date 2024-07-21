@@ -30,3 +30,5 @@ export const kanbanColumns: Column[] = [
     title: "Complete",
   },
 ];
+
+export const issueCategories: string[] = ["Story", "Bug", "Task", "Spike"];

@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import { useAppContext } from "./contexts/AppContext";
 import Layout from "./layouts/Layout";
@@ -8,6 +8,9 @@ import SignInPage from "./pages/SignInPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import KanbanPage from "./pages/KanbanPage";
+import IssueManagementPage from "./pages/IssueManagementPage";
+import IssuesBacklogPage from "./pages/IssuesBacklogPage";
+import CreateIssuePage from "./pages/CreateIssuePage";
 
 const App = () => {
   const { isLoggedIn } = useAppContext();
@@ -41,6 +44,9 @@ const App = () => {
 
       {
         /* === AUTHENTICATION REQUIRED === */
+
+        /* === PROFILE PAGE === */
+
         isLoggedIn && (
           <>
             <Route
@@ -51,6 +57,9 @@ const App = () => {
                 </Layout>
               }
             />
+
+            {/* === KANABAN PAGES === */}
+
             <Route
               path="/kanban"
               element={
@@ -59,9 +68,34 @@ const App = () => {
                 </KanbanLayout>
               }
             />
+            <Route
+              path="/issues"
+              element={
+                <Layout>
+                  <IssuesBacklogPage />
+                </Layout>
+              }
+            />
+            <Route
+              path="/issues/create-issue"
+              element={
+                <Layout>
+                  <CreateIssuePage />
+                </Layout>
+              }
+            />
+            <Route
+              path="/issues/:issueCode"
+              element={
+                <Layout>
+                  <IssueManagementPage />
+                </Layout>
+              }
+            />
           </>
         )
       }
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };

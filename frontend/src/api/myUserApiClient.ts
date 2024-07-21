@@ -36,6 +36,19 @@ export const signInUser = async (formData: SignInFormData): Promise<User> => {
   return response.json();
 };
 
+export const getAllUsers = async (): Promise<User[]> => {
+  const response = await fetch(`${API_BASE_URL}/api/users`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch Users");
+  }
+
+  return response.json();
+};
+
 export const getUser = async (): Promise<User> => {
   const response = await fetch(`${API_BASE_URL}/api/users/profile`, {
     method: "GET",

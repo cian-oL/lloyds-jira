@@ -24,14 +24,14 @@ router.post(
       minNumbers: 1,
       minSymbols: 1,
     }),
-    check("firstName", "First Name is required").isString(),
-    check("lastName", "Last Name is required").isString(),
+    check("firstName", "First Name is required").notEmpty().isString(),
+    check("lastName", "Last Name is required").notEmpty().isString(),
   ],
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      res.status(400).json({ message: errors.array() });
+      return res.status(400).json({ message: errors.array() });
     }
 
     try {
@@ -59,10 +59,22 @@ router.post(
       return res.status(200).json({ user });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ message: "Something went wrong" });
+      return res.status(500).json({ message: "Something went wrong" });
     }
   }
 );
+
+// /api/users
+router.get("/", verifyToken, async (req: Request, res: Response) => {
+  try {
+    const users = await User.find({});
+
+    return res.status(200).json(users);
+  } catch (err) {
+    console.error("Error fetching users", err);
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+});
 
 // /api/users/profile
 router.get("/profile", verifyToken, async (req: Request, res: Response) => {
@@ -71,7 +83,7 @@ router.get("/profile", verifyToken, async (req: Request, res: Response) => {
     res.status(200).json(user);
   } catch (err) {
     console.error("Error fetching user", err);
-    res.status(500).json({ message: "Something went wrong" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
 });
 
@@ -94,7 +106,7 @@ router.put("/profile", verifyToken, async (req: Request, res: Response) => {
     return res.status(200).json(existingUser);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Something went wrong" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
 });
 
