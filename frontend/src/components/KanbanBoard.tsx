@@ -1,27 +1,16 @@
-import { useState } from "react";
+import { useQuery } from "react-query";
+import { toast } from "sonner";
 
-import { kanbanColumns } from "../config/kanbanColumnsConfig";
+import { kanbanColumns } from "../config/kanbanConfig";
 import KanbanColumnContainer from "./KanbanColumnContainer";
-import { Task } from "../types/kanbanTypes";
+import { getAllIssues } from "../api/issueApiClient";
 
 const KanbanBoard = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-
-  const createTask = (columnId: string) => {
-    const newTask: Task = {
-      taskId: Math.floor(Math.random() * 10000).toString(),
-      content: `Task ${tasks.length + 1}`,
-      columnId,
-    };
-
-    setTasks([...tasks, newTask]);
-  };
-
-  const deleteTask = (taskId: string) => {
-    const newTasks = tasks.filter((task) => task.taskId !== taskId);
-
-    setTasks(newTasks);
-  };
+  const { data: issues } = useQuery("getAllIssues", getAllIssues, {
+    onError: async () => {
+      toast.error("Error fetching issues");
+    },
+  });
 
   return (
     <div className="flex justify-between items-center px-1 gap-4">
@@ -29,9 +18,7 @@ const KanbanBoard = () => {
         <KanbanColumnContainer
           key={column.columnId}
           column={column}
-          createTask={createTask}
-          tasks={tasks.filter((task) => task.columnId === column.columnId)}
-          deleteTask={deleteTask}
+          issues={issues?.filter((issue) => issue.columnId === column.columnId)}
         />
       ))}
     </div>
