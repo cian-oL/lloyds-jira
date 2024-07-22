@@ -142,7 +142,7 @@ const IssueManagementForm = ({ currentIssue, onSave, isLoading }: Props) => {
         >
           <option value="">Select...</option>
           {kanbanColumns.map((column) => (
-            <option key={column.columnId} value={column.title}>
+            <option key={column.columnId} value={column.columnId}>
               {column.title}
             </option>
           ))}
