@@ -4,9 +4,10 @@ import { toast } from "sonner";
 import IssueManagementForm from "../forms/IssueManagementForm";
 import { IssueFormData } from "../types/kanbanTypes";
 import { getIssueByCode, updateIssueByCode } from "../api/issueApiClient";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const IssueManagementPage = () => {
+  const navigate = useNavigate();
   const { issueCode } = useParams();
 
   const { data: currentIssue, isLoading: isGetLoading } = useQuery(
@@ -32,6 +33,7 @@ const IssueManagementPage = () => {
 
   const handleSave = (formData: IssueFormData) => {
     mutate(formData);
+    navigate("/kanban");
   };
 
   return (
