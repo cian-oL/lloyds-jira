@@ -27,12 +27,12 @@ const IssueCard = ({ issue }: Props) => {
       <p>{issue.name}</p>
       <br />
       <p className="font-bold underline">Assignee:</p>
-      <div className="relative flex items-center justify-start gap-2">
+      <div className="flex items-center justify-between w-full gap-2">
         <p className="w-1/2">{issue.assignee}</p>
         {mouseIsOver && (
           <AlertDialog>
-            <AlertDialogTrigger className="absolute left-24 w-4 p-0 bg-lloyds-green text-white text-xs hover:text-red-500 hover:bg-lloyds-green hover:cursor-pointer">
-              <TrashIcon />
+            <AlertDialogTrigger className="w-4 mr-2 bg-lloyds-green text-white text-xs hover:text-red-500 hover:bg-lloyds-green hover:cursor-pointer">
+              <TrashIcon className="h-4" />
             </AlertDialogTrigger>
             <DeleteIssueDialog issue={issue} />
           </AlertDialog>
