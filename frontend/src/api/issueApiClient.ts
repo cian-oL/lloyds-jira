@@ -48,18 +48,16 @@ export const getIssueByCode = async (issueCode: string): Promise<Issue> => {
   return response.json();
 };
 
-export const updateIssueByCode = async (
-  userData: IssueFormData
-): Promise<Issue> => {
+export const updateIssue = async (issueData: IssueFormData): Promise<Issue> => {
   const response = await fetch(
-    `${API_BASE_URL}/api/issues/${userData.issueCode}`,
+    `${API_BASE_URL}/api/issues/${issueData.issueCode}`,
     {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify(userData),
+      body: JSON.stringify(issueData),
     }
   );
 
@@ -70,7 +68,7 @@ export const updateIssueByCode = async (
   return response.json();
 };
 
-export const deleteIssueByCode = async (issue: Issue): Promise<void> => {
+export const deleteIssue = async (issue: Issue): Promise<void> => {
   const response = await fetch(
     `${API_BASE_URL}/api/issues/${issue.issueCode}`,
     {

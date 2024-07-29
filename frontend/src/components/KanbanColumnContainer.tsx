@@ -7,15 +7,16 @@ import IssueCard from "./IssueCard";
 type Props = {
   column: Column;
   issues?: Issue[];
+  handleDelete: (issue: Issue) => void;
 };
 
-const KanbanColumnContainer = ({ column, issues }: Props) => {
+const KanbanColumnContainer = ({ column, issues, handleDelete }: Props) => {
   const issuesIds: string[] = useMemo(() => {
     if (!issues) {
       return [""];
     }
 
-    return issues?.map((issue) => issue.issueCode);
+    return issues.map((issue) => issue.issueCode);
   }, [issues]);
 
   return (
@@ -26,7 +27,11 @@ const KanbanColumnContainer = ({ column, issues }: Props) => {
       <div className="flex flex-col flex-1 gap-4 p-2 overflow-x-hidden overflow-y-auto bg-indigo-300">
         <SortableContext items={issuesIds}>
           {issues?.map((issue) => (
-            <IssueCard key={issue.issueCode} issue={issue} />
+            <IssueCard
+              key={issue.issueCode}
+              issue={issue}
+              handleDelete={handleDelete}
+            />
           ))}
         </SortableContext>
       </div>

@@ -1,6 +1,3 @@
-import { useNavigate } from "react-router-dom";
-
-import { deleteIssueByCode } from "../api/issueApiClient";
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -14,16 +11,10 @@ import { Issue } from "../types/kanbanTypes";
 
 type Props = {
   issue: Issue;
+  handleDelete: (issue: Issue) => void;
 };
 
-const DeleteIssueDialog = ({ issue }: Props) => {
-  const navigate = useNavigate();
-
-  const handleDelete = () => {
-    deleteIssueByCode(issue);
-    navigate("/kanban");
-  };
-
+const DeleteIssueDialog = ({ issue, handleDelete }: Props) => {
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
@@ -36,7 +27,7 @@ const DeleteIssueDialog = ({ issue }: Props) => {
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
         <AlertDialogAction
-          onClick={handleDelete}
+          onClick={() => handleDelete(issue)}
           className="rounded-lg text-white font-bold bg-red-500 hover:bg-red-300"
         >
           Delete Issue
