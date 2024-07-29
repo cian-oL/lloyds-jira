@@ -1,7 +1,8 @@
 import { useQuery } from "react-query";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 import { Issue, IssueFormData } from "../types/kanbanTypes";
 import { getAllUsers } from "../api/myUserApiClient";
@@ -9,6 +10,7 @@ import { issueCategories, kanbanColumns } from "../config/kanbanConfig";
 import { Button } from "../components/ui/button";
 import { AlertDialog, AlertDialogTrigger } from "../components/ui/alert-dialog";
 import DeleteIssueDialog from "../components/DeleteIssueDialog";
+import { deleteIssue } from "../api/issueApiClient";
 
 type Props = {
   currentIssue?: Issue;
@@ -16,12 +18,34 @@ type Props = {
   isLoading: boolean;
 };
 
-const IssueManagementForm = ({ currentIssue, onSave, isLoading }: Props) => {
+const IssueManagementForm = ({
+  currentIssue,
+  onSave,
+  isLoading: isUpdateLoading,
+}: Props) => {
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const navigate = useNavigate();
+
   const { data: users } = useQuery("getAllUsers", getAllUsers, {
     onError: async () => {
       toast.error("Error fetching users");
     },
   });
+
+  const handleDelete = (issueToDelete: Issue) => {
+    setIsDeleteLoading(true);
+    deleteIssue(issueToDelete)
+      .then(() => {
+        setIsDeleteLoading(false);
+        navigate("/kanban");
+        toast.success("Issue deleted");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Error deleting issues");
+        setIsDeleteLoading(false);
+      });
+  };
 
   const {
     register,
@@ -161,17 +185,23 @@ const IssueManagementForm = ({ currentIssue, onSave, isLoading }: Props) => {
       <div className="flex flex-col mx-2 md:flex-row gap-5">
         <Button
           type="submit"
-          disabled={isLoading}
+          disabled={isUpdateLoading}
           className="rounded-lg bg-lloyds-dark-green text-white font-bold hover:bg-lloyds-green w-full sm:w-fit"
         >
-          {isLoading ? "Saving..." : "Submit"}
+          {isUpdateLoading ? "Saving..." : "Submit"}
         </Button>
         {currentIssue && (
           <AlertDialog>
-            <AlertDialogTrigger className="rounded-lg px-4 py-1 text-white font-bold bg-red-500 hover:bg-red-300">
-              Delete Issue
+            <AlertDialogTrigger
+              disabled={isDeleteLoading}
+              className="rounded-lg px-4 py-1 text-white font-bold bg-red-500 hover:bg-red-300"
+            >
+              {isDeleteLoading ? "Deleting" : "Delete Issue"}
             </AlertDialogTrigger>
-            <DeleteIssueDialog issue={currentIssue} />
+            <DeleteIssueDialog
+              issue={currentIssue}
+              handleDelete={handleDelete}
+            />
           </AlertDialog>
         )}
       </div>

@@ -1,4 +1,4 @@
-import { useMutation } from "react-query";
+import { useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
@@ -8,19 +8,19 @@ import { createIssue } from "../api/issueApiClient";
 
 const CreateIssuePage = () => {
   const navigate = useNavigate();
-
-  const { mutate, isLoading } = useMutation(createIssue, {
-    onSuccess: async () => {
-      toast.success("Issue successfully created");
-    },
-    onError: async () => {
-      toast.error("Issue creation failure");
-    },
-  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSave = (formData: IssueFormData) => {
-    mutate(formData);
-    navigate("/kanban");
+    setIsLoading(true);
+    createIssue(formData)
+      .then(() => {
+        toast.success("Issue successfully created");
+        navigate("/kanban");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Issue creation failure");
+      });
   };
 
   return (

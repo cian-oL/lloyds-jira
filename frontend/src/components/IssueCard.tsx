@@ -8,9 +8,10 @@ import DeleteIssueDialog from "./DeleteIssueDialog";
 
 type Props = {
   issue: Issue;
+  handleDelete: (issue: Issue) => void;
 };
 
-const IssueCard = ({ issue }: Props) => {
+const IssueCard = ({ issue, handleDelete }: Props) => {
   const [mouseIsOver, setMouseIsOver] = useState<boolean>(false);
 
   return (
@@ -34,7 +35,7 @@ const IssueCard = ({ issue }: Props) => {
             <AlertDialogTrigger className="w-4 mr-2 bg-lloyds-green text-white text-xs hover:text-red-500 hover:bg-lloyds-green hover:cursor-pointer">
               <TrashIcon className="h-4" />
             </AlertDialogTrigger>
-            <DeleteIssueDialog issue={issue} />
+            <DeleteIssueDialog issue={issue} handleDelete={handleDelete} />
           </AlertDialog>
         )}
       </div>

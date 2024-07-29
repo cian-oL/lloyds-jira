@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
+import { useNavigate, useParams } from "react-router-dom";
 
 import IssueManagementForm from "../forms/IssueManagementForm";
 import { IssueFormData } from "../types/kanbanTypes";
-import { getIssueByCode, updateIssueByCode } from "../api/issueApiClient";
-import { useNavigate, useParams } from "react-router-dom";
+import { getIssueByCode, updateIssue } from "../api/issueApiClient";
 
 const IssueManagementPage = () => {
   const navigate = useNavigate();
@@ -19,21 +19,18 @@ const IssueManagementPage = () => {
     }
   );
 
-  const { mutate, isLoading: isUpdateLoading } = useMutation(
-    updateIssueByCode,
-    {
-      onSuccess: async () => {
-        toast.success("issue successfully updated");
-      },
-      onError: async () => {
-        toast.error("Error updating issue");
-      },
-    }
-  );
+  const { mutateAsync, isLoading: isUpdateLoading } = useMutation(updateIssue, {
+    onSuccess: async () => {
+      toast.success("Issue successfully updated");
+      navigate("/kanban");
+    },
+    onError: async () => {
+      toast.error("Error updating issue");
+    },
+  });
 
   const handleSave = (formData: IssueFormData) => {
-    mutate(formData);
-    navigate("/kanban");
+    mutateAsync(formData);
   };
 
   return (
