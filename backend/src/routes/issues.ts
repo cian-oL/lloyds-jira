@@ -113,12 +113,12 @@ router.delete(
     try {
       const { issueCode } = req.params;
 
-      const issueToDelete = await Issue.findOneAndDelete({ issueCode });
-      if (!issueToDelete) {
+      const result = await Issue.findOneAndDelete({ issueCode });
+      if (!result) {
         return res.status(404).json({ message: "Issue not found" });
       }
 
-      return res.status(204).json({ message: "Issue deleted" });
+      return res.status(200).json({ message: "Issue deleted successfully" });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ message: "Something went wrong" });
