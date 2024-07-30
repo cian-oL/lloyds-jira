@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { TrashIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 import { Issue } from "../types/kanbanTypes";
 import { AlertDialog, AlertDialogTrigger } from "../components/ui/alert-dialog";
@@ -14,10 +16,28 @@ type Props = {
 const IssueCard = ({ issue, handleDelete }: Props) => {
   const [mouseIsOver, setMouseIsOver] = useState<boolean>(false);
 
+  const { setNodeRef, attributes, listeners, transform, transition } =
+    useSortable({
+      id: issue.issueCode,
+      data: {
+        type: "Issue",
+        issue,
+      },
+    });
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
+
   return (
     <div
       onMouseEnter={() => setMouseIsOver(true)}
       onMouseLeave={() => setMouseIsOver(false)}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
       className="flex flex-col items-start rounded-xl p-2.5 min-h-24 text-left bg-lloyds-green text-white text-xs hover:ring-2 cursor-grab hover:ring-inset hover:ring-amber-100"
     >
       <Link to={`/issues/${issue.issueCode}`}>
