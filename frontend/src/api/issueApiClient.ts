@@ -48,7 +48,9 @@ export const getIssueByCode = async (issueCode: string): Promise<Issue> => {
   return response.json();
 };
 
-export const updateIssue = async (issueData: IssueFormData): Promise<Issue> => {
+export const updateIssueByFormData = async (
+  issueData: IssueFormData
+): Promise<Issue> => {
   const response = await fetch(
     `${API_BASE_URL}/api/issues/${issueData.issueCode}`,
     {
@@ -58,6 +60,26 @@ export const updateIssue = async (issueData: IssueFormData): Promise<Issue> => {
       },
       credentials: "include",
       body: JSON.stringify(issueData),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to update User Profile");
+  }
+
+  return response.json();
+};
+
+export const updateIssue = async (issue: Issue): Promise<Issue> => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/issues/${issue.issueCode}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(issue),
     }
   );
 
