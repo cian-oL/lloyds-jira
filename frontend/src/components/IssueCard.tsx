@@ -17,7 +17,7 @@ const IssueCard = ({ issue, handleDelete }: Props) => {
   const [mouseIsOver, setMouseIsOver] = useState<boolean>(false);
 
   const {
-    setNodeRef,
+    setNodeRef: setDraggableNodeRef,
     attributes,
     listeners,
     transform,
@@ -40,12 +40,12 @@ const IssueCard = ({ issue, handleDelete }: Props) => {
     <div
       onMouseEnter={() => setMouseIsOver(true)}
       onMouseLeave={() => setMouseIsOver(false)}
-      ref={setNodeRef}
+      ref={setDraggableNodeRef}
       style={style}
       {...attributes}
       {...listeners}
       className={`flex flex-col items-start rounded-xl p-2.5 min-h-24 text-left bg-lloyds-green text-white text-xs hover:ring-2 cursor-grab hover:ring-inset hover:ring-amber-100 ${
-        isDragging && "opacity-70 z-10"
+        isDragging && "opacity-70"
       }`}
     >
       <Link to={`/issues/${issue.issueCode}`}>
