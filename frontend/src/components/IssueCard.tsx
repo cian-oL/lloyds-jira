@@ -16,14 +16,20 @@ type Props = {
 const IssueCard = ({ issue, handleDelete }: Props) => {
   const [mouseIsOver, setMouseIsOver] = useState<boolean>(false);
 
-  const { setNodeRef, attributes, listeners, transform, transition } =
-    useSortable({
-      id: issue.issueCode,
-      data: {
-        type: "Issue",
-        issue,
-      },
-    });
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: issue.issueCode,
+    data: {
+      type: "Issue",
+      issue,
+    },
+  });
 
   const style = {
     transition,
@@ -38,7 +44,9 @@ const IssueCard = ({ issue, handleDelete }: Props) => {
       style={style}
       {...attributes}
       {...listeners}
-      className="flex flex-col items-start rounded-xl p-2.5 min-h-24 text-left bg-lloyds-green text-white text-xs hover:ring-2 cursor-grab hover:ring-inset hover:ring-amber-100"
+      className={`flex flex-col items-start rounded-xl p-2.5 min-h-24 text-left bg-lloyds-green text-white text-xs hover:ring-2 cursor-grab hover:ring-inset hover:ring-amber-100 ${
+        isDragging && "opacity-70 z-10"
+      }`}
     >
       <Link to={`/issues/${issue.issueCode}`}>
         <p className="font-bold underline text-sm hover:text-indigo-400">
